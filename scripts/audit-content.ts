@@ -67,14 +67,39 @@ const PLACEHOLDER_IMAGE = /photo-XXXX/;
 
 // ─── Article scanner ───────────────────────────────────────────────
 
-function parseFrontmatter(content: string): { draft?: boolean; title?: string } {
+function parseFrontmatter(content: string): {
+  draft?: boolean;
+  title?: string;
+  coverImage?: string;
+} {
   const match = content.match(/^---\s*\n([\s\S]*?)\n---/);
   if (!match) return {};
   const fm = match[1];
   return {
     draft: /^draft:\s*true\s*$/m.test(fm),
     title: fm.match(/^title:\s*"?([^"\n]+)"?\s*$/m)?.[1],
+    coverImage: fm.match(/^coverImage:\s*"?([^"\n]+)"?\s*$/m)?.[1],
   };
+}
+
+function checkCoverImage(
+  meta: { coverImage?: string },
+  file: string,
+  isDraft: boolean,
+): Issue[] {
+  if (isDraft) return [];
+  if (!meta.coverImage || meta.coverImage.trim() === "") {
+    return [
+      {
+        file,
+        line: 0,
+        severity: "error",
+        rule: "Missing coverImage frontmatter — every published article needs a hero image (SEO, social previews, scroll-stopping above the fold)",
+        snippet: "",
+      },
+    ];
+  }
+  return [];
 }
 
 function checkEmDashDensity(content: string, file: string): Issue[] {
@@ -159,10 +184,12 @@ function audit(): { errors: number; warns: number } {
   for (const file of files) {
     const fullPath = path.join(ARTICLES_DIR, file);
     const content = fs.readFileSync(fullPath, "utf8");
-    const { draft = true } = parseFrontmatter(content);
+    const meta = parseFrontmatter(content);
+    const draft = meta.draft ?? true;
     const rel = path.relative(process.cwd(), fullPath);
     allIssues.push(...checkLines(content, rel, draft));
     allIssues.push(...checkEmDashDensity(content, rel));
+    allIssues.push(...checkCoverImage(meta, rel, draft));
   }
 
   const errors = allIssues.filter((i) => i.severity === "error");
