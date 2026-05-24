@@ -29,7 +29,7 @@ Find every line with `// TODO:` and replace the value. Specifically:
 |---|---|
 | `name` | Site display name (e.g., `"Landscaper Tools"`) |
 | `shortName` | Mobile-friendly version (usually same as `name`) |
-| `tagline` | One-line value prop (e.g., `"Honest reviews of lawn-care CRM software"`) |
+| `tagline` | One-line value prop (e.g., `"Independent reviews of lawn-care CRM software"`). Avoid the word "honest" — top review sites demonstrate honesty through methodology, not adjectives. Words like "independent", "tested", "side-by-side" signal trust without sounding defensive. |
 | `description` | ~150 char SEO description for SERP + OG |
 | `url` | Your purchased domain URL (use `https://www.yourdomain.com`) |
 | `accentColor` + `accentColorDark` | Hex colors for accent — match `ogGradient` to these |

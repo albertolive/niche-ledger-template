@@ -18,7 +18,7 @@ export const site = {
   /** TODO: Short form for tight UI spots (mobile header, favicon initial). */
   shortName: "Niche Ledger",
   /** TODO: One-line value proposition — appears as the homepage h1. */
-  tagline: "Honest reviews of [niche] software",
+  tagline: "Independent reviews of [niche] software",
   /** TODO: ~150-char SEO description — appears in <meta description>. */
   description:
     "Reviews, comparisons, and how-tos for [niche] software. Independent, affiliate-supported.",
