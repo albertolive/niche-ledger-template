@@ -4,6 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import "./globals.css";
 import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
+import { deriveInitials, iconBackground } from "@/lib/brand";
 import { resolveSiteUrl, site } from "@/lib/site";
 
 // AdSense publisher ID. Env var (NEXT_PUBLIC_ADSENSE_CLIENT on Vercel)
@@ -97,9 +98,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             >
               <span
                 aria-hidden
-                className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-emerald-700 text-sm font-bold text-white"
+                className="inline-flex h-7 w-7 items-center justify-center rounded-md text-[11px] font-bold tracking-tight text-white"
+                style={{ background: iconBackground() }}
               >
-                {site.name.charAt(0)}
+                {deriveInitials(site.name)}
               </span>
               <span className="hidden sm:inline">{site.name}</span>
             </Link>
