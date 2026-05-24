@@ -9,7 +9,8 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "check-ready": "tsx scripts/check-template-ready.ts"
+    "check-ready": "tsx scripts/check-template-ready.ts",
+    "audit-content": "tsx scripts/audit-content.ts"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
