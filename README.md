@@ -41,10 +41,13 @@ The pattern: build 3-5 niche affiliate review sites at ~$500/mo each = portfolio
 
 This template makes that setup a 5-minute fork.
 
-## Sister projects
+## Sister projects (portfolio)
 
-- **[opportunity-radar](https://github.com/albertolive/opportunity-radar)** — the niche-discovery engine that surfaces what to build next
-- **[landlord-ledger](https://github.com/albertolive/landlord-ledger)** — first instance built from this template (landlord accounting software niche)
+See `PORTFOLIO.md` in **opportunity-radar** for the full 5-repo portfolio map.
+
+- **[opportunity-radar](https://github.com/albertolive/opportunity-radar)** — niche-discovery engine that surfaces what to build next
+- **[landlord-ledger](https://github.com/albertolive/landlord-ledger)** — instance #1 (landlord accounting software niche), live at landlordsledger.com
+- **[lawn-care-ledger](https://github.com/albertolive/lawn-care-ledger)** — instance #2 (lawn care / landscaping software niche), pre-deploy
 
 ## Verifying before deploy
 
