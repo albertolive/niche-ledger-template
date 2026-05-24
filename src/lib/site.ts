@@ -41,6 +41,13 @@ export const site = {
   accentColorDark: "#10b981",
   /** OG image gradient — pick complementary darker shades of accentColor. */
   ogGradient: ["#15803d", "#052e16"] as const,
+  /**
+   * Optional favicon background override. Defaults to accentColor when
+   * omitted. Set this when forking from an existing portfolio site to
+   * ensure each favicon looks visibly distinct — Google flags portfolios
+   * with near-identical favicons as a thin-content / PBN signal.
+   */
+  // iconBgColor: "#65a30d",
 
   // ─── Homepage hero ──────────────────────────────────────────────────
   /** TODO: Eyebrow pill text above the h1. */
@@ -100,11 +107,13 @@ export const site = {
 
   // ─── Monetization ───────────────────────────────────────────────────
   /**
-   * TODO: AdSense Publisher ID (ca-pub-XXXXXXXXXXXXXXX). Get this from
-   * AdSense after signing up at https://adsense.google.com.
+   * AdSense Publisher ID (ca-pub-XXXXXXXXXXXXXXX) fallback. Prefer setting
+   * NEXT_PUBLIC_ADSENSE_CLIENT in Vercel env vars instead — that way a new
+   * fork can be monetized the moment AdSense approves the site, no code
+   * push needed. The env var takes precedence over this committed value.
    *
-   * Falsy disables AdSense entirely (script not rendered, slot placeholders
-   * shown in dev only). Leave empty string until AdSense approves the site.
+   * Falsy on both disables AdSense entirely (script not rendered, slot
+   * placeholders shown in dev only).
    */
   adsenseClient: "",
 } as const;

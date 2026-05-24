@@ -6,10 +6,13 @@ import "./globals.css";
 import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
 import { resolveSiteUrl, site } from "@/lib/site";
 
-// AdSense publisher ID — sourced from site.config so a new site just
-// needs to change one constant. Google's verification crawler looks for
-// this script in the server-rendered HTML (see <script> tag below).
-const ADSENSE_CLIENT = site.adsenseClient;
+// AdSense publisher ID. Env var (NEXT_PUBLIC_ADSENSE_CLIENT on Vercel)
+// takes precedence over the committed site.adsenseClient fallback, so a
+// new fork can be approved + monetized without a code change. Google's
+// verification crawler reads the <script> tag below from server-rendered
+// HTML. Trim() defends against trailing whitespace in env vars.
+const ADSENSE_CLIENT =
+  process.env.NEXT_PUBLIC_ADSENSE_CLIENT?.trim() || site.adsenseClient;
 
 // Google Analytics 4 Measurement ID — set NEXT_PUBLIC_GA_ID in Vercel env
 // after creating a GA4 property at https://analytics.google.com.
