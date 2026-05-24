@@ -13,8 +13,10 @@ import { site } from "./site";
  * and the in-page header badge always agree.
  */
 export function deriveInitials(name: string): string {
+  // Strip punctuation WITHOUT inserting whitespace so "Landlord's Ledger"
+  // → "Landlords Ledger" → "LL" (not "LS" from a spurious "s" word).
   const words = name
-    .replace(/[^\p{L}\s]/gu, " ")
+    .replace(/[^\p{L}\s]/gu, "")
     .split(/\s+/)
     .filter(Boolean);
   if (words.length === 0) return "·";
