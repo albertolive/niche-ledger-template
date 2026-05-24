@@ -64,29 +64,27 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable} h-full antialiased`}
       style={{ ["--accent-color" as string]: site.accentColor }}
     >
-      <head>
-        {/*
-         * AdSense verification: this script MUST appear in the
-         * server-rendered HTML <head> so Google's verifier (which doesn't
-         * execute JS reliably) can find it. Using a raw <script> tag —
-         * next/script with strategy="afterInteractive" injects client-side
-         * and verification fails.
-         *
-         * Falsy ADSENSE_CLIENT skips this entirely (clean disable path
-         * for sites without AdSense).
-         */}
-        {ADSENSE_CLIENT && (
-          <>
-            {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-            <script
-              async
-              src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
-              crossOrigin="anonymous"
-            />
-            <meta name="google-adsense-account" content={ADSENSE_CLIENT} />
-          </>
-        )}
-      </head>
+      {/*
+       * AdSense verification: this script MUST appear in the
+       * server-rendered HTML <head> so Google's verifier (which doesn't
+       * execute JS reliably) can find it. Render <head> ONLY when
+       * ADSENSE_CLIENT is set — Next.js App Router strips its own
+       * auto-generated head content (CSS link, font preloads, metadata)
+       * when JSX provides an explicit empty <head>. This is critical for
+       * template instances that haven't applied for AdSense yet — without
+       * the conditional they'd ship with no Tailwind CSS loaded.
+       */}
+      {ADSENSE_CLIENT && (
+        <head>
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+          <script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+            crossOrigin="anonymous"
+          />
+          <meta name="google-adsense-account" content={ADSENSE_CLIENT} />
+        </head>
+      )}
       <body className="flex min-h-full flex-col bg-stone-50 text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-50">
         <header className="sticky top-0 z-40 border-b border-neutral-200/80 bg-stone-50/90 backdrop-blur-md dark:border-neutral-800/80 dark:bg-neutral-950/90">
           <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-3.5">
