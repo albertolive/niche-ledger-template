@@ -62,7 +62,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const minutes = readingTime(article.content);
 
   return (
-    <article className="mx-auto max-w-2xl px-6 py-10 sm:py-14">
+    <article className="mx-auto max-w-3xl px-6 py-10 sm:py-14">
       {/* Breadcrumb */}
       <nav className="mb-8 text-sm" aria-label="Breadcrumb">
         <Link
