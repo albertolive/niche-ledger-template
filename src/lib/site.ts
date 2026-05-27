@@ -52,10 +52,17 @@ export const site = {
   // ─── Homepage hero ──────────────────────────────────────────────────
   /** TODO: Eyebrow pill text above the h1. */
   heroEyebrow: "Independent [niche] software reviews",
-  /** TODO: Three short trust signals shown below the hero subhead. */
+  /**
+   * TODO: Three short trust signals shown below the hero subhead.
+   * Keep them TRUE. Don't claim hands-on testing or first-person
+   * experience you don't have — that's an E-E-A-T + integrity risk
+   * (and affiliate networks / Google both penalize faked experience).
+   * Safe research-based signals: "No paid placements", "Pricing
+   * verified at the source", "Updated quarterly".
+   */
   trustSignals: [
     "No paid placements",
-    "Tested on real [users]",
+    "Pricing verified at the source",
     "Updated quarterly",
   ] as const,
 
@@ -85,20 +92,26 @@ export const site = {
   } as const,
   /** Plain-English affiliate disclosure for the site-wide footer. */
   affiliateDisclosure:
-    "Some links on this site are affiliate links. We may earn a commission when you click through and sign up, at no extra cost to you. We only recommend tools we'd use ourselves.",
+    "Some links on this site are affiliate links. We may earn a commission when you click through and sign up, at no extra cost to you. Rankings are based on features, pricing, and real user feedback — never on referral payout.",
 
   // ─── Editorial methodology (about page) ─────────────────────────────
   /** TODO: The category/niche you cover. Example: "rental properties". */
   niche: "[niche]",
   /** TODO: Plural form of who the site serves. Example: "landlords". */
   audience: "[audience]",
-  /** TODO: What you test — items in your testing methodology. */
+  /**
+   * TODO: How you research each tool — items in the methodology shown on
+   * the About page. Keep these HONEST about what you actually do. If you
+   * don't have hands-on experience, describe the real research process
+   * (reviewing the live product, verifying pricing at source, reading
+   * user feedback) rather than claiming "used for 30 days on real data".
+   */
   testingChecklist: [
-    "Sign up on the free tier with a real email address",
-    "Use the tool for at least 30 days on real data",
-    "Test the workflows your audience actually cares about",
-    "Verify pricing claims against the vendor's current pricing page",
-    "Test the upgrade path from free to paid tier",
+    "Review each tool's live product, feature set, and free-vs-paid boundary",
+    "Verify every pricing claim against the vendor's current official pricing page",
+    "Cross-reference real user feedback on Reddit and industry forums",
+    "Compare each tool head-to-head on the features the audience actually uses",
+    "Re-verify pricing and features each quarter and date every update",
   ] as const,
   /** How often you re-verify pricing + features. */
   reviewCadence: "quarterly",
