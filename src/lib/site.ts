@@ -93,6 +93,13 @@ export const site = {
   /** Plain-English affiliate disclosure for the site-wide footer. */
   affiliateDisclosure:
     "Some links on this site are affiliate links. We may earn a commission when you click through and sign up, at no extra cost to you. Rankings are based on features, pricing, and real user feedback — never on referral payout.",
+  /**
+   * Gates the site-wide footer affiliate disclosure. Keep false until the
+   * site actually carries affiliate links — partner programs approve once we
+   * have traffic/authority. A disclosure shown with zero affiliate links on
+   * the page is inaccurate; flip to true the moment the first one ships.
+   */
+  affiliateLinksActive: false,
 
   // ─── Editorial methodology (about page) ─────────────────────────────
   /** TODO: The category/niche you cover. Example: "rental properties". */
