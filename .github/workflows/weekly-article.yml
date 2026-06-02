@@ -1,0 +1,55 @@
+name: Weekly Article (Claude)
+
+# Every week, Claude drafts ONE new cluster-gap article and opens it as a PR
+# for review. It never publishes: the draft ships with `draft: true` and a
+# human merges the PR after checking the facts. This is the automation that
+# keeps the content cluster growing toward (and past) AdSense depth.
+#
+# Inherited by every site forked/scaffolded from this template. Two setup
+# steps per new site:
+#   1. Auth: run `claude setup-token` (Claude Max subscription, NOT a paid
+#      API key) and add the value as a repo secret CLAUDE_CODE_OAUTH_TOKEN
+#      (Settings -> Secrets and variables -> Actions). No per-token billing.
+#   2. Optional: change the cron day below so your sites don't all run the
+#      same morning.
+
+on:
+  schedule:
+    - cron: "0 9 * * 3" # Wednesdays 09:00 UTC (change per site to stagger)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write # required by claude-code-action for OIDC auth to GitHub
+
+jobs:
+  draft-article:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Draft a new article and open a PR
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          base_branch: main
+          prompt: |
+            Read .claude/article-prompt.md and follow it exactly: research,
+            write, and open a pull request for ONE new draft article. Leave it
+            as draft: true and do not merge.
+          claude_args: |
+            --allowedTools Bash,Edit,Write,Read,Glob,Grep,WebSearch,WebFetch
+            --max-turns 40
