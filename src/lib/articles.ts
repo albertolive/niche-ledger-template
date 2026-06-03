@@ -36,8 +36,21 @@ function readAll(): Article[] {
   return articles;
 }
 
+export const ARTICLES_PER_PAGE = 9;
+
 export function getAllArticles(): ArticleMeta[] {
   return readAll().map(({ content: _content, ...meta }) => meta);
+}
+
+export function getArticlesPage(
+  page: number,
+  pageSize = ARTICLES_PER_PAGE,
+): { articles: ArticleMeta[]; totalPages: number } {
+  const all = getAllArticles();
+  const totalPages = Math.max(1, Math.ceil(all.length / pageSize));
+  const safePage = Math.max(1, Math.min(page, totalPages));
+  const start = (safePage - 1) * pageSize;
+  return { articles: all.slice(start, start + pageSize), totalPages };
 }
 
 export function getArticleBySlug(slug: string): Article | null {

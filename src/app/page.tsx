@@ -1,40 +1,50 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArticleCard } from "@/components/ArticleCard";
-import { getAllArticles } from "@/lib/articles";
+import { Pagination } from "@/components/Pagination";
+import { getArticlesPage } from "@/lib/articles";
 import { site } from "@/lib/site";
 
-export default function Page() {
-  const articles = getAllArticles();
-  const featured = articles[0];
-  const rest = articles.slice(1);
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const { page: pageParam } = await searchParams;
+  const currentPage = Math.max(1, parseInt(pageParam ?? "1", 10) || 1);
+
+  const { articles, totalPages } = getArticlesPage(currentPage);
+  const featured = currentPage === 1 ? articles[0] : null;
+  const rest = currentPage === 1 ? articles.slice(1) : articles;
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-12 sm:py-16">
-      {/* Hero */}
-      <section className="mb-14 sm:mb-16">
-        <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/50 dark:text-emerald-300">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden />
-          {site.heroEyebrow}
-        </p>
-        <h1 className="font-serif text-balance text-[2.5rem] font-bold leading-[1.05] tracking-tight text-neutral-900 sm:text-[3.25rem] dark:text-neutral-50">
-          {site.tagline}.
-        </h1>
-        <p className="mt-5 max-w-prose text-pretty text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
-          {site.description}
-        </p>
-        <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-neutral-500">
-          {site.trustSignals.map((signal) => (
-            <span key={signal} className="flex items-center gap-1.5">
-              <span
-                className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500"
-                aria-hidden
-              />
-              {signal}
-            </span>
-          ))}
-        </div>
-      </section>
+      {/* Hero — only on page 1 */}
+      {currentPage === 1 && (
+        <section className="mb-14 sm:mb-16">
+          <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/50 dark:text-emerald-300">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden />
+            {site.heroEyebrow}
+          </p>
+          <h1 className="font-serif text-balance text-[2.5rem] font-bold leading-[1.05] tracking-tight text-neutral-900 sm:text-[3.25rem] dark:text-neutral-50">
+            {site.tagline}.
+          </h1>
+          <p className="mt-5 max-w-prose text-pretty text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
+            {site.description}
+          </p>
+          <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-neutral-500">
+            {site.trustSignals.map((signal) => (
+              <span key={signal} className="flex items-center gap-1.5">
+                <span
+                  className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500"
+                  aria-hidden
+                />
+                {signal}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Featured (latest) article — visually prominent with cover image */}
       {featured && (
@@ -100,11 +110,11 @@ export default function Page() {
         </section>
       )}
 
-      {/* Article grid — only show when there are more articles */}
+      {/* Article grid */}
       {rest.length > 0 && (
         <section>
           <h2 className="mb-6 text-xs font-semibold uppercase tracking-wider text-neutral-500">
-            More reviews
+            {currentPage === 1 ? "More reviews" : "All reviews"}
           </h2>
           <ul className="grid gap-4 sm:grid-cols-2">
             {rest.map((a) => (
@@ -115,6 +125,8 @@ export default function Page() {
           </ul>
         </section>
       )}
+
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
 
       {/* When only 1 article is published, fill the page with a "what's coming" section */}
       {rest.length === 0 && featured && site.upcomingArticles.length > 0 && (
