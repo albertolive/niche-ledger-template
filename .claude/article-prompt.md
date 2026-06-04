@@ -35,3 +35,12 @@ Choose ONE cluster-gap topic that does not overlap any existing article. Good sh
 ## 6. Open the PR
 
 Commit the new `content/articles/<slug>.mdx` on a new branch and open a pull request titled `Draft: <article title>`. In the PR body, list the chosen topic, every source URL you verified, and any facts you could only hedge. Stop there. A human merges.
+
+End the PR body with this publish checklist (verbatim), because merging alone does NOT publish, an article merged with `draft: true` silently never appears on the site:
+
+```markdown
+## Before this goes live
+- [ ] Review facts, sources, and the cover image
+- [ ] Flip `draft: true` to `draft: false` (in this PR or a follow-up commit), the merge alone does not publish
+- [ ] After deploy, confirm the article renders at `/articles/<slug>`
+```
